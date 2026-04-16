@@ -42,8 +42,18 @@ body {
   background: rgba(15, 23, 42, 0.85);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 16px;
-  padding: 20px;
+  overflow: hidden;
+}
+
+/* 🔥 HEADER FIJO (TÍTULO + CONTROLES + STATUS) */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(15, 23, 42, 0.95);
   backdrop-filter: blur(12px);
+  padding: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 h1 {
@@ -60,11 +70,10 @@ h1 {
   align-items: center;
 }
 
-/* FIX DEL INPUT (IMPORTANTE) */
 input[type="date"] {
   flex: 1;
   width: 100%;
-  min-width: 0;   /* 🔥 FIX PRINCIPAL */
+  min-width: 0;
   padding: 12px 14px;
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.12);
@@ -86,10 +95,10 @@ button {
   color: white;
   font-weight: 700;
   cursor: pointer;
+  transition: 0.2s;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: 0.2s;
 }
 
 button:hover {
@@ -99,7 +108,7 @@ button:hover {
 
 .status {
   font-size: 13px;
-  margin: 8px 0;
+  margin-top: 8px;
   color: var(--muted);
 }
 
@@ -107,21 +116,29 @@ button:hover {
   color: #fb7185;
 }
 
+/* WRAPPER TABLA */
+.table-wrapper {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
 /* TABLE */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 12px;
-  border-radius: 12px;
-  overflow: hidden;
 }
 
 th {
+  position: sticky;
+  top: 0; /* sticky dentro del scroll de tabla */
+  z-index: 150;
   text-align: left;
   font-size: 12px;
   color: var(--muted);
   padding: 12px;
-  background: rgba(255,255,255,0.04);
+  background: rgba(20, 25, 45, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 td {
@@ -158,8 +175,8 @@ tr:hover {
     padding: 20px 12px;
   }
 
-  .card {
-    padding: 16px;
+  .header {
+    padding: 14px;
   }
 
   .controls {
@@ -171,14 +188,6 @@ tr:hover {
   button {
     width: 100%;
   }
-
-  input[type="date"] {
-    min-width: 0; /* 🔥 refuerzo móvil */
-  }
-
-  button {
-    padding: 14px;
-  }
 }
 </style>
 </head>
@@ -188,15 +197,24 @@ tr:hover {
 <div class="container">
   <div class="card">
 
-    <h1>Precio de la luz por hora</h1>
+    <!-- 🔥 HEADER FIJO -->
+    <div class="header">
 
-    <div class="controls">
-      <input type="date" id="fecha" onchange="cleanTable()">
-      <button onclick="cargarDatos()">Consultar</button>
+      <h1>Precio de la luz por hora</h1>
+
+      <div class="controls">
+        <input type="date" id="fecha" onchange="cleanTable()">
+        <button onclick="cargarDatos()">Consultar</button>
+      </div>
+
+      <div id="status" class="status"></div>
+
     </div>
 
-    <div id="status" class="status"></div>
-    <div id="resultado"></div>
+    <!-- 🔥 TABLA SCROLLABLE -->
+    <div class="table-wrapper">
+      <div id="resultado"></div>
+    </div>
 
   </div>
 </div>
@@ -276,6 +294,7 @@ async function cargarDatos() {
     console.error(err);
   }
 }
+
 </script>
 
 </body>
