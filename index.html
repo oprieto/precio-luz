@@ -191,7 +191,7 @@ tr:hover {
     <h1>Precio de la luz por hora</h1>
 
     <div class="controls">
-      <input type="date" id="fecha">
+      <input type="date" id="fecha" onchange="cleanTable()">
       <button onclick="cargarDatos()">Consultar</button>
     </div>
 
@@ -202,6 +202,12 @@ tr:hover {
 </div>
 
 <script>
+
+function cleanTable() {
+  document.getElementById("resultado").innerHTML = "";
+  document.getElementById("status").innerHTML = "";
+}
+
 async function cargarDatos() {
   const fecha = document.getElementById("fecha").value;
   const resultado = document.getElementById("resultado");
